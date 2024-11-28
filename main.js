@@ -58,18 +58,21 @@ function startAlgorithm() {
         grid[row][col].classList.add('visited');
 
         // Check neighbors
-        for (const [dr, dc] of [
-            [0, 1], [1, 0], [0, -1], [-1, 0], // Four directions
-        ]) {
+    for (const [dr, dc] of [
+        [0, 1], [1, 0], [0, -1], [-1, 0], // Four cardinal directions
+        [-1, -1], [-1, 1], [1, -1], [1, 1], // Four diagonal directions
+    ]) {
             const neighborRow = row + dr;
             const neighborCol = col + dc;
 
             if (
-                neighborRow < 0 || neighborCol < 0 || neighborRow >= rows || neighborCol >= cols ||
-                walls.has(`${neighborRow},${neighborCol}`) || closedSet.has(`${neighborRow},${neighborCol}`)
+                neighborRow < 0 || neighborCol < 0 || neighborRow >= rows || neighborCol >= cols || // Out of bounds
+                walls.has(`${neighborRow},${neighborCol}`) || // Wall check
+                closedSet.has(`${neighborRow},${neighborCol}`) // Already visited
             ) continue;
 
-            const g = current.g + 1;
+            const diagonal = dr !== 0 && dc !== 0; // True if diagonal movement
+            const g = current.g + (diagonal ? Math.SQRT2 : 1); // Adjust cost for diagonal movement
             const h = heuristic({ row: neighborRow, col: neighborCol }, endCell);
             const f = g + h;
 
