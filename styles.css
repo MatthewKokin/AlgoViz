@@ -13,12 +13,11 @@ h1 {
 
 #grid {
     display: grid;
-    justify-content: center;
     gap: 2px;
     margin: 20px auto;
-    width: 600px;
-    grid-template-columns: repeat(20, 30px);
+    justify-content: center;
 }
+
 
 .cell {
     width: 30px;
