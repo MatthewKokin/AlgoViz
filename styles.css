@@ -1,0 +1,66 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+h1 {
+    margin: 20px 0;
+    color: #333;
+}
+
+#grid {
+    display: grid;
+    justify-content: center;
+    gap: 2px;
+    margin: 20px auto;
+    width: 600px;
+    grid-template-columns: repeat(20, 30px);
+}
+
+.cell {
+    width: 30px;
+    height: 30px;
+    background-color: #eee;
+    border: 1px solid #ddd;
+}
+
+.cell.start {
+    background-color: green;
+}
+
+.cell.end {
+    background-color: red;
+}
+
+.cell.wall {
+    background-color: black;
+}
+
+.cell.visited {
+    background-color: lightblue;
+}
+
+.cell.path {
+    background-color: yellow;
+}
+
+#controls {
+    margin: 20px;
+}
+
+button {
+    padding: 10px 15px;
+    margin: 5px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
