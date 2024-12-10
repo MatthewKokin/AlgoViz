@@ -93,6 +93,8 @@ main {
 
 .cell.path {
     background-color: rgb(243, 109, 13);
+    transition: background-color 1s ease, transform 1s ease;
+    transform: scale(1.1);
 }
 
 #controls {
