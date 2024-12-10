@@ -1,32 +1,42 @@
-import { generateRandomCoords, createGrid } from "./functions";
-import { startNode } from "./types";
+import { generateRandomCoords, createGrid } from "./functions.js";
+import { cell } from "./types.js";
+// import { startNode } from "./types";
+
+document.addEventListener("DOMContentLoaded", () => {
+    const resetButton = document.querySelector("button");
+    resetButton?.addEventListener("click", resetGrid);
+});
 
 const cols = 10;
 const rows = 10;
 let walls = new Set();
 let grid = createGrid(cols, rows)
-let [startCell, endCell] = generateRandomCoords(cols, rows, grid);
+let [startCell, endCell]: cell[]= generateRandomCoords(cols, rows, grid);
+console.log(grid)
+
+function resetGrid() {
+    // @ts-ignore
+    grid = createGrid(cols, rows)
+    // @ts-ignore
+    [startCell, endCell] = generateRandomCoords(cols, rows, grid);
+    walls.clear();
+}
 
 
 // Handle cell click to set start, end, or wall
-export function handleCellClick(row, col) {
-    const cell = grid[row][col];
+// export function handleCellClick(row: number, col: number) {
+//     const cell = grid[row][col];
 
-    const key = `${row},${col}`;
-    if (walls.has(key)) {
-        walls.delete(key);
-        cell.classList.remove('wall');
-    } else {
-        walls.add(key);
-        cell.classList.add('wall');
-    }
-}
-
-// function resetGrid() {
-//     grid = createGrid(cols, rows)
-//     [startCell, endCell] = generateRandomCoords(cols, rows, grid);
-//     walls.clear();
+//     const key = `${row},${col}`;
+//     if (walls.has(key)) {
+//         walls.delete(key);
+//         cell.classList.remove('wall');
+//     } else {
+//         walls.add(key);
+//         cell.classList.add('wall');
+//     }
 // }
+
 
 // function startAlgorithm() {
 //     if (!startCell || !endCell) return alert('Set start and end points first!');

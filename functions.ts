@@ -1,20 +1,21 @@
-import { cell } from "./types";
-import { handleCellClick } from "./main";
+import { cell, SpotType } from "./types";
+// import { handleCellClick } from "./main.js";
 
 export function generateRandomCoords(cols: number, rows: number, grid:HTMLDivElement[][]): cell[] {
     type point = "start" | "end"
-    function generateRandomPosition(grid, pointClass:point):cell {
+    function generateRandomPosition(grid: HTMLDivElement[][], pointClass:point):cell {
         const randomCol = Math.floor(Math.random() * cols)
         const randomRow = Math.floor(Math.random() * rows)
-        const cell = grid[randomCol][randomRow];
+        const div = grid[randomCol][randomRow];
 
-        cell.classList.add(pointClass)
+        div.classList.add(pointClass)
+        console.log(div);
         return {row: randomCol, col: randomRow}
     }
     
     const startCell:cell = generateRandomPosition(grid, "start");
 
-    let endCell:cell = generateRandomPosition(grid, "end");
+    let endCell:cell
     do { endCell = generateRandomPosition(grid, "end");
     } while (startCell.row === endCell.row && startCell.col === endCell.col);
 
@@ -28,11 +29,18 @@ export function createGrid(cols: number, rows: number):HTMLDivElement[][] {
     gridContainer.style.gridTemplateColumns = `repeat(${cols}, 30px)`;
     
     let grid: HTMLDivElement[][] = [];
-    function Spot(){
-        this.f = 0
-        this.g = 0
-        this.h = 0
-    }
+    class Spot {
+        f: number;
+        g: number;
+        h: number;
+      
+        constructor() {
+          this.f = 0;
+          this.g = 0;
+          this.h = 0;
+        }
+      }
+      
 
     for (let row = 0; row < rows; row++) {
         const gridRow: HTMLDivElement[] = [];
@@ -42,7 +50,7 @@ export function createGrid(cols: number, rows: number):HTMLDivElement[][] {
             cell.dataset.row = row.toString();
             cell.dataset.col = col.toString();
             new Spot()
-            cell.addEventListener('click', () => handleCellClick(row, col));
+            // cell.addEventListener('click', () => handleCellClick(row, col));
             gridContainer.appendChild(cell);
             gridRow.push(cell);
         }

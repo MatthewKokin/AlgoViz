@@ -7,3 +7,9 @@ export type startNode = {
     row: number | null;
     col: number | null;
 }
+
+export type SpotType = {
+    f: number
+    g: number
+    h: number
+}
