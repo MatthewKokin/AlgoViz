@@ -7,6 +7,7 @@ let walls = new Set();
 
 const gridContainer = document.getElementById('grid');
 
+// test 123
 
 function Spot(){
     this.f = 0
