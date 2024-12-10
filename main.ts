@@ -1,51 +1,35 @@
-const rows = 10;
+import { generateRandomCoords, createGrid } from "./functions";
+import { cell, startNode } from "./types";
+
 const cols = 10;
-let grid: HTMLDivElement[][] = [];
-let startCell = { row: null, col: null };
-let endCell = { row: null, col: null };
+const rows = 10;
 let walls = new Set();
-type startNode = {
-    f: number;
-    g: number;
-    h: number;
-    parent: startNode | null;
-    row: number | null;
-    col: number | null;
-}
-
-const gridContainer = document.getElementById('grid');
+let [startCell, endCell] = generateRandomCoords(cols, rows);
+let grid = createGrid(cols, rows)
 
 
-function Spot(){
-    this.f = 0
-    this.g = 0
-    this.h = 0
-}
+// Handle cell click to set start, end, or wall
+export function handleCellClick(row, col) {
+    const cell = grid[row][col];
 
-// Initialize the grid
-function createGrid():void {
-    if (!gridContainer) {
-        throw Error("Missing gridContainer element")
-    }
-    gridContainer.innerHTML = '';
-    gridContainer.style.gridTemplateColumns = `repeat(${cols}, 30px)`;
-    grid = [];
-
-    for (let row = 0; row < rows; row++) {
-        const gridRow: HTMLDivElement[] = [];
-        for (let col = 0; col < cols; col++) {
-            const cell = document.createElement('div');
-            cell.className = 'cell';
-            cell.dataset.row = row.toString();
-            cell.dataset.col = col.toString();
-            new Spot()
-            cell.addEventListener('click', () => handleCellClick(row, col));
-            gridContainer.appendChild(cell);
-            gridRow.push(cell);
+    if (!startCell) {
+        startCell = { row, col };
+        cell.classList.add('start');
+    } else if (!endCell) {
+        endCell = { row, col };
+        cell.classList.add('end');
+    } else {
+        const key = `${row},${col}`;
+        if (walls.has(key)) {
+            walls.delete(key);
+            cell.classList.remove('wall');
+        } else {
+            walls.add(key);
+            cell.classList.add('wall');
         }
-        grid.push(gridRow);
     }
 }
+
 
 function startAlgorithm() {
     if (!startCell || !endCell) return alert('Set start and end points first!');
@@ -117,28 +101,6 @@ function heuristic(a, b) {
     return Math.abs(a.row - b.row) + Math.abs(a.col - b.col);
 }
 
-// Handle cell click to set start, end, or wall
-function handleCellClick(row, col) {
-    const cell = grid[row][col];
-
-    if (!startCell) {
-        startCell = { row, col };
-        cell.classList.add('start');
-    } else if (!endCell) {
-        endCell = { row, col };
-        cell.classList.add('end');
-    } else {
-        const key = `${row},${col}`;
-        if (walls.has(key)) {
-            walls.delete(key);
-            cell.classList.remove('wall');
-        } else {
-            walls.add(key);
-            cell.classList.add('wall');
-        }
-    }
-}
-
 // Draw the final path
 function drawPath(node) {
     if (!startCell) {
@@ -154,10 +116,8 @@ function drawPath(node) {
 }
 
 function resetGrid() {
-    startCell = { row: null, col: null };
-    endCell = { row: null, col: null };
+    [startCell, endCell] = generateRandomCoords(cols, rows);
+    grid = createGrid(cols, rows)
     walls.clear();
-    createGrid();
 }
 
-createGrid();

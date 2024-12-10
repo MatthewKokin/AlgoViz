@@ -1,0 +1,5 @@
+spawning start and end
+you can move points
+place walls under hold
+start algorithm
+
