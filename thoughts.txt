@@ -3,3 +3,8 @@ you can move points
 place walls under hold
 start algorithm
 
+
+
+Generate random coords 
+Asign a class
+Function that generates both

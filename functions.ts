@@ -1,16 +1,23 @@
 import { cell } from "./types";
 import { handleCellClick } from "./main";
-export function generateRandomCoords(cols: number, rows: number): cell[] {
-    const generateRandomPosition = (): { row: number; col: number } => ({
-      row: Math.floor(Math.random() * rows),
-      col: Math.floor(Math.random() * cols),
-    });
-  
-    const startCell:cell = generateRandomPosition();
-    let endCell:cell = generateRandomPosition();
-    do { endCell = generateRandomPosition();
-    } while (startCell.row === endCell.row && startCell.col === endCell.col); 
+
+export function generateRandomCoords(cols: number, rows: number, grid:HTMLDivElement[][]): cell[] {
+    type point = "start" | "end"
+    function generateRandomPosition(grid, pointClass:point):cell {
+        const randomCol = Math.floor(Math.random() * cols)
+        const randomRow = Math.floor(Math.random() * rows)
+        const cell = grid[randomCol][randomRow];
+
+        cell.classList.add(pointClass)
+        return {row: randomCol, col: randomRow}
+    }
     
+    const startCell:cell = generateRandomPosition(grid, "start");
+
+    let endCell:cell = generateRandomPosition(grid, "end");
+    do { endCell = generateRandomPosition(grid, "end");
+    } while (startCell.row === endCell.row && startCell.col === endCell.col);
+
     return [startCell, endCell]
   }
 
